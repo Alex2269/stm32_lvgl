@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="200"
+   height="18"
+   viewBox="0 0 52.916667 4.7624996"
+   version="1.1"
+   id="svg5"
+   inkscape:version="1.1.1 (3bf5ae0d25, 2021-09-20)"
+   sodipodi:docname="arrow_small.svg"
+   inkscape:export-filename="/home/ram/_4/lvgl_simulator_sdl_cmake/my_proj/resources/arrow_small.png"
+   inkscape:export-xdpi="96"
+   inkscape:export-ydpi="96"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview7"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:document-units="px"
+     showgrid="false"
+     units="px"
+     inkscape:zoom="8.0000001"
+     inkscape:cx="26.75"
+     inkscape:cy="-10.5"
+     inkscape:window-width="1680"
+     inkscape:window-height="985"
+     inkscape:window-x="0"
+     inkscape:window-y="0"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="layer1" />
+  <defs
+     id="defs2">
+    <filter
+       inkscape:label="Monochrome Transparency"
+       inkscape:menu="Fill and Transparency"
+       inkscape:menu-tooltip="Convert to a colorizable transparent positive or negative"
+       style="color-interpolation-filters:sRGB"
+       id="filter12086"
+       x="0"
+       y="0"
+       width="1"
+       height="1">
+      <feColorMatrix
+         type="luminanceToAlpha"
+         result="fbSourceGraphic"
+         id="feColorMatrix12078" />
+      <feFlood
+         flood-color="rgb(134,39,24)"
+         result="result1"
+         flood-opacity="1"
+         id="feFlood12080" />
+      <feComposite
+         operator="out"
+         in2="fbSourceGraphic"
+         result="result2"
+         id="feComposite12082" />
+      <feComposite
+         operator="in"
+         in2="SourceGraphic"
+         id="feComposite12084" />
+    </filter>
+  </defs>
+  <g
+     inkscape:label="Слой 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(-8.6365128,-75.340485)">
+    <rect
+       style="fill:#000000;fill-opacity:0.02;stroke-width:0.320602"
+       id="rect1169"
+       width="52.916664"
+       height="4.7624998"
+       x="8.6365128"
+       y="75.340485" />
+    <path
+       id="path13637"
+       style="fill:#000000;stroke-width:0.0623954"
+       d="m 24.51668,75.616954 a 2.1424224,2.1045063 0 0 0 -2.104781,1.720308 c -0.347543,0.0094 -0.745708,0.01447 -1.128097,0.01447 -1.147708,0 -1.205779,-0.0039 -1.458309,-0.148312 L 19.56246,77.054075 9.0421728,77.004983 v 0.721403 0.720886 l 10.5202872,-0.04961 0.263033,-0.149345 c 0.25253,-0.142875 0.310601,-0.148311 1.458309,-0.148311 0.382932,0 0.781771,0.0046 1.129647,0.01447 a 2.1424224,2.1045063 0 0 0 2.103231,1.71204 2.1424224,2.1045063 0 0 0 2.124418,-1.848466 L 61.333036,77.95221 V 77.726386 77.500043 L 26.643682,77.474205 A 2.1424224,2.1045063 0 0 0 24.51668,75.616954 Z m -0.04496,1.024744 c 0.64,0 1.119828,0.472246 1.119828,1.040246 0,0.64 -0.479828,1.119828 -1.119828,1.119828 -0.552,0 -1.040246,-0.479828 -1.040246,-1.119828 0,-0.56 0.488246,-1.040246 1.040246,-1.040246 z" />
+    <path
+       style="fill:#000000;fill-opacity:1;stroke-width:0.00958333"
+       d="m 24.507802,77.618012 c 0.06147,0 0.107565,0.04533 0.107565,0.09988 v 0 0 c 0,0.06147 -0.0461,0.107565 -0.107565,0.107565 -0.05301,0 -0.09988,-0.0461 -0.09988,-0.107565 v 0 0 c 0,-0.05378 0.04687,-0.09988 0.09988,-0.09988 z"
+       id="path840" />
+  </g>
+</svg>

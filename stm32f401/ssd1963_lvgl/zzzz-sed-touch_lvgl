@@ -1,0 +1,44 @@
+#!/bin/sh
+
+DIRS=$1
+
+replace() {
+ sed -i /include/s/'\"lvgl\/'/'\"'/g ${1}
+ # sed -i /include/s/'\.\.\/\.\.\/'/''/g ${1}
+ sed -i /include/s/'\.\.\/'/''/g ${1}
+ sed -i /include/s/'\.\.\/'/''/g ${1}
+ sed -i /include/s/'\.\.\/'/''/g ${1}
+
+ # sed -i /include/s/">"/"\""/g ${1}
+}
+
+echo "$DIRS" | while read d ; do
+  if test -n "$d" -a -d "$d"; then
+    find "$d" -type f -name '*' | while read SRC; do
+      replace "$SRC"
+    done
+  fi
+done
+
+# find lvgl ! -name '*.c' -delete
+# find lvgl ! -name '*.h' -delete
+# find lvgl ! -name '*.s' -delete
+
+exit
+
+  SRC_DIR=/home/ram/_4
+  DST_DIR=/home/ram/_4/stm32_lvgl/STM32F407_BlackBoard_lvgl-v8
+
+  cd ${SRC_DIR}
+
+  SRC_DIR=./
+  cp --parent $(find ${SRC_DIR}/lvgl -name '*.c') ${DST_DIR}
+  cp --parent $(find ${SRC_DIR}/lvgl -name '*.h') ${DST_DIR}
+  cp --parent $(find ${SRC_DIR}/lvgl -name '*.s') ${DST_DIR}
+
+  SRC_DIR=./
+  cp --parent $(find ${SRC_DIR}/lv_demos -name '*.c') ${DST_DIR}
+  cp --parent $(find ${SRC_DIR}/lv_demos -name '*.h') ${DST_DIR}
+  cp --parent $(find ${SRC_DIR}/lv_demos -name '*.s') ${DST_DIR}
+
+
