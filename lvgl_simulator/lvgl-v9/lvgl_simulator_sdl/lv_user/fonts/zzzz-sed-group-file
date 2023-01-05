@@ -1,0 +1,25 @@
+#!/bin/sh
+
+DIRS="$(pwd)/${1}"
+
+replace() {
+ cd ${DIRS}
+
+  sed -i s/'\if LV_VERSION_CHECK(8, 0, 0)'/'\if LVGL_VERSION_MAJOR >= 8'/g ${1}
+
+}
+
+
+echo "$DIRS" | while read d ; do
+  if test -n "$d" -a -d "$d"; then
+    find "$d" -type f -name '*' | while read SRC; do
+      replace "$SRC"
+    done
+  fi
+done
+
+# du * | sort -n # сортировка по размеру
+
+# груповое переименование-нумерация файлов:
+# i=0;for name in `ls *.ogg`; do i=$[i+1];mv $name `printf "%04d" radio$i`.ogg;done
+# i=0;for name in `ls *.ogg`; do i=$[i+1];mv $name `printf radio-"%04d" $i`.ogg;done

@@ -1,0 +1,148 @@
+--- lv_conf_template.h	2022-09-04 22:26:30.976986512 +0300
++++ lv_conf.h	2022-09-06 11:37:37.616551123 +0300
+@@ -12,7 +12,7 @@
+  */
+ 
+ /* clang-format off */
+-#if 0 /*Set it to "1" to enable content*/
++#if 1 /*Set it to "1" to enable content*/
+ 
+ #ifndef LV_CONF_H
+ #define LV_CONF_H
+@@ -24,7 +24,7 @@
+  *====================*/
+ 
+ /*Color depth: 1 (1 byte per pixel), 8 (RGB332), 16 (RGB565), 32 (ARGB8888)*/
+-#define LV_COLOR_DEPTH 16
++#define LV_COLOR_DEPTH 32
+ 
+ #define LV_COLOR_CHROMA_KEY lv_color_hex(0x00ff00)
+ 
+@@ -200,7 +200,7 @@
+  *-----------*/
+ 
+ /*Enable the log module*/
+-#define LV_USE_LOG 0
++#define LV_USE_LOG 1
+ #if LV_USE_LOG
+ 
+     /*How important log should be added:
+@@ -240,7 +240,7 @@
+  *If LV_USE_LOG is enabled an error message will be printed on failure*/
+ #define LV_USE_ASSERT_NULL          1   /*Check if the parameter is NULL. (Very fast, recommended)*/
+ #define LV_USE_ASSERT_MALLOC        1   /*Checks is the memory is successfully allocated or no. (Very fast, recommended)*/
+-#define LV_USE_ASSERT_STYLE         0   /*Check if the styles are properly initialized. (Very fast, recommended)*/
++#define LV_USE_ASSERT_STYLE         1   /*Check if the styles are properly initialized. (Very fast, recommended)*/
+ #define LV_USE_ASSERT_MEM_INTEGRITY 0   /*Check the integrity of `lv_mem` after critical operations. (Slow)*/
+ #define LV_USE_ASSERT_OBJ           0   /*Check the object's type and existence (e.g. not deleted). (Slow)*/
+ 
+@@ -295,7 +295,7 @@
+ 
+ /* Adjust color mix functions rounding. GPUs might calculate color mix (blending) differently.
+  * 0: round down, 64: round up from x.75, 128: round up from half, 192: round up from x.25, 254: round up */
+-#define LV_COLOR_MIX_ROUND_OFS 0
++#define LV_COLOR_MIX_ROUND_OFS (LV_COLOR_DEPTH == 32 ? 0: 128)
+ 
+ /*=====================
+  *  COMPILER SETTINGS
+@@ -345,9 +345,9 @@
+  *https://fonts.google.com/specimen/Montserrat*/
+ #define LV_FONT_MONTSERRAT_8  0
+ #define LV_FONT_MONTSERRAT_10 0
+-#define LV_FONT_MONTSERRAT_12 0
++#define LV_FONT_MONTSERRAT_12 1
+ #define LV_FONT_MONTSERRAT_14 1
+-#define LV_FONT_MONTSERRAT_16 0
++#define LV_FONT_MONTSERRAT_16 1
+ #define LV_FONT_MONTSERRAT_18 0
+ #define LV_FONT_MONTSERRAT_20 0
+ #define LV_FONT_MONTSERRAT_22 0
+@@ -378,10 +378,32 @@
+ /*Optionally declare custom fonts here.
+  *You can use these fonts as default font too and they will be available globally.
+  *E.g. #define LV_FONT_CUSTOM_DECLARE   LV_FONT_DECLARE(my_font_1) LV_FONT_DECLARE(my_font_2)*/
+-#define LV_FONT_CUSTOM_DECLARE
++
++#define LV_FONT_CUSTOM_DECLARE \
++  LV_FONT_DECLARE(arial_8) \
++  LV_FONT_DECLARE(arial_10) \
++  LV_FONT_DECLARE(arial_12) \
++  LV_FONT_DECLARE(arial_14) \
++  LV_FONT_DECLARE(arial_16) \
++  LV_FONT_DECLARE(arial_18) \
++  LV_FONT_DECLARE(arial_20) \
++  LV_FONT_DECLARE(arial_22) \
++  LV_FONT_DECLARE(arial_24) \
++  LV_FONT_DECLARE(arial_26) \
++  LV_FONT_DECLARE(arial_28) \
++  LV_FONT_DECLARE(arial_30) \
++  LV_FONT_DECLARE(arial_32) \
++  LV_FONT_DECLARE(arial_34) \
++  LV_FONT_DECLARE(arial_36) \
++  LV_FONT_DECLARE(arial_38) \
++  LV_FONT_DECLARE(arial_40) \
++  LV_FONT_DECLARE(arial_42) \
++  LV_FONT_DECLARE(arial_44) \
++  LV_FONT_DECLARE(arial_46) \
++  LV_FONT_DECLARE(arial_48)
+ 
+ /*Always set a default font*/
+-#define LV_FONT_DEFAULT &lv_font_montserrat_14
++#define LV_FONT_DEFAULT &arial_14
+ 
+ /*Enable handling large font and/or fonts with a lot of characters.
+  *The limit depends on the font size, font face and bpp.
+@@ -542,10 +564,10 @@
+ #if LV_USE_THEME_DEFAULT
+ 
+     /*0: Light mode; 1: Dark mode*/
+-    #define LV_THEME_DEFAULT_DARK 0
++    #define LV_THEME_DEFAULT_DARK 1
+ 
+     /*1: Enable grow on press*/
+-    #define LV_THEME_DEFAULT_GROW 1
++    #define LV_THEME_DEFAULT_GROW 0
+ 
+     /*Default transition time in [ms]*/
+     #define LV_THEME_DEFAULT_TRANSITION_TIME 80
+@@ -675,7 +697,7 @@
+ #endif
+ 
+ /*1: Enable a published subscriber based messaging system */
+-#define LV_USE_MSG 0
++#define LV_USE_MSG 1
+ 
+ /*1: Enable Pinyin input method*/
+ /*Requires: lv_keyboard*/
+@@ -718,26 +740,26 @@
+  ====================*/
+ 
+ /*Show some widget. It might be required to increase `LV_MEM_SIZE` */
+-#define LV_USE_DEMO_WIDGETS 0
++#define LV_USE_DEMO_WIDGETS 1
+ #if LV_USE_DEMO_WIDGETS
+     #define LV_DEMO_WIDGETS_SLIDESHOW 0
+ #endif
+ 
+ /*Demonstrate the usage of encoder and keyboard*/
+-#define LV_USE_DEMO_KEYPAD_AND_ENCODER 0
++#define LV_USE_DEMO_KEYPAD_AND_ENCODER 1
+ 
+ /*Benchmark your system*/
+-#define LV_USE_DEMO_BENCHMARK 0
++#define LV_USE_DEMO_BENCHMARK 1
+ #if LV_USE_DEMO_BENCHMARK
+     /*Use RGB565A8 images with 16 bit color depth instead of ARGB8565*/
+     #define LV_DEMO_BENCHMARK_RGB565A8 0
+ #endif
+ 
+ /*Stress test for LVGL*/
+-#define LV_USE_DEMO_STRESS 0
++#define LV_USE_DEMO_STRESS 1
+ 
+ /*Music player demo*/
+-#define LV_USE_DEMO_MUSIC 0
++#define LV_USE_DEMO_MUSIC 1
+ #if LV_USE_DEMO_MUSIC
+     #define LV_DEMO_MUSIC_SQUARE    0
+     #define LV_DEMO_MUSIC_LANDSCAPE 0

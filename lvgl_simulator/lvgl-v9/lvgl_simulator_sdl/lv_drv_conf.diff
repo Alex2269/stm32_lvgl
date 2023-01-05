@@ -1,0 +1,54 @@
+--- lv_drv_conf_template.h	2022-05-28 15:35:03.274374953 +0300
++++ lv_drv_conf.h	2022-05-28 15:35:03.274374953 +0300
+@@ -7,7 +7,7 @@
+  * COPY THIS FILE AS lv_drv_conf.h
+  */
+ 
+-#if 0 /*Set it to "1" to enable the content*/
++#if 1 /*Set it to "1" to enable the content*/
+ 
+ #ifndef LV_DRV_CONF_H
+ #define LV_DRV_CONF_H
+@@ -83,12 +83,12 @@
+  *  Monitor of PC
+  *-------------------*/
+ #ifndef USE_MONITOR
+-#  define USE_MONITOR         0
++#  define USE_MONITOR         1
+ #endif
+ 
+ #if USE_MONITOR
+-#  define MONITOR_HOR_RES     480
+-#  define MONITOR_VER_RES     320
++#  define MONITOR_HOR_RES     800
++#  define MONITOR_VER_RES     480
+ 
+ /* Scale window by this factor (useful when simulating small screens) */
+ #  define MONITOR_ZOOM        1
+@@ -353,7 +353,7 @@
+  * Mouse or touchpad on PC (using SDL)
+  *-------------------------------------*/
+ #ifndef USE_MOUSE
+-#  define USE_MOUSE           0
++#  define USE_MOUSE           1
+ #endif
+ 
+ #if USE_MOUSE
+@@ -364,7 +364,7 @@
+  * Mousewheel as encoder on PC (using SDL)
+  *------------------------------------------*/
+ #ifndef USE_MOUSEWHEEL
+-#  define USE_MOUSEWHEEL      0
++#  define USE_MOUSEWHEEL      1
+ #endif
+ 
+ #if USE_MOUSEWHEEL
+@@ -411,7 +411,7 @@
+  *   Keyboard of a PC (using SDL)
+  *------------------------------*/
+ #ifndef USE_KEYBOARD
+-#  define USE_KEYBOARD        0
++#  define USE_KEYBOARD        1
+ #endif
+ 
+ #if USE_KEYBOARD
