@@ -14,6 +14,19 @@
    #******************************************
 
    #******************************************
+   видалення останніх комітів:
+   # git reset HEAD^    --hard
+   #
+   git reset  origin    --hard
+   git reset  HEAD~1    --hard
+   git reset  HEAD~1    --hard
+   git reset  HEAD~1    --hard
+   git push origin HEAD --force
+   #******************************************
+
+   #******************************************
+   оновлення та полсилання файлів на сховищє:
+   #
    git status
    git add .
    git commit -m "$(date "+%Y-%m-%d")"

@@ -77,6 +77,7 @@ extern TS_Point p; // define on __xpt2046_H
   */
 int main(void)
 {
+
   /* USER CODE BEGIN 1 */
 #ifdef SEMIHOSTING_ENABLE
   initialise_monitor_handles();
@@ -184,6 +185,9 @@ void SystemClock_Config(void)
   {
 
   }
+  while (LL_PWR_IsActiveFlag_VOS() == 0)
+  {
+  }
   LL_RCC_SetAHBPrescaler(LL_RCC_SYSCLK_DIV_1);
   LL_RCC_SetAPB1Prescaler(LL_RCC_APB1_DIV_2);
   LL_RCC_SetAPB2Prescaler(LL_RCC_APB2_DIV_1);
@@ -236,4 +240,3 @@ void assert_failed(uint8_t *file, uint32_t line)
   /* USER CODE END 6 */
 }
 #endif /* USE_FULL_ASSERT */
-

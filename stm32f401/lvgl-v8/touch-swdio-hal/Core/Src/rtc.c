@@ -50,6 +50,7 @@ void MX_RTC_Init(void)
   /* USER CODE BEGIN RTC_Init 1 */
 
   /* USER CODE END RTC_Init 1 */
+
   /** Initialize RTC and set the Time and Date
   */
   RTC_InitStruct.HourFormat = LL_RTC_HOURFORMAT_24HOUR;
@@ -58,6 +59,7 @@ void MX_RTC_Init(void)
   LL_RTC_Init(RTC, &RTC_InitStruct);
   LL_RTC_SetAsynchPrescaler(RTC, 125);
   LL_RTC_SetSynchPrescaler(RTC, 8000);
+
   /** Initialize RTC and set the Time and Date
   */
   if(LL_RTC_BAK_GetRegister(RTC, LL_RTC_BKP_DR0) != 0x32F2){

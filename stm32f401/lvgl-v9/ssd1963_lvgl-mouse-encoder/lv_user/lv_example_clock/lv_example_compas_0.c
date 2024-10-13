@@ -15,7 +15,7 @@ static timer_repeat_count(lv_timer_t* timer, uint16_t count);
 static timer_set_period(lv_timer_t* timer, uint16_t new_period);
 static timer_reset_period(lv_timer_t* timer);
 static void timer_stop(lv_timer_t* timer);
-static void arc_create(lv_obj_t* parent, lv_style_t * style, uint16_t sz, uint16_t width, int16_t start, int16_t end, uint16_t opa, lv_palette_t palette);
+static void arc_create(lv_obj_t* parent, lv_style_t * style, uint16_t sz, uint16_t width, int16_t start, int16_t end, uint16_t opa, lv_color_t color);
 static void update_label(lv_obj_t * lbl, uint16_t value);
 static lv_obj_t * rectangle_rounded(lv_obj_t* parent, lv_style_t * style, uint16_t x, uint16_t y, uint16_t w, int16_t h, uint16_t opa, lv_palette_t palette);
 
@@ -110,7 +110,7 @@ static void timer_stop(lv_timer_t* timer)
   lv_timer_set_repeat_count(timer, 0);
 }
 
-static void arc_create(lv_obj_t* parent, lv_style_t * style, uint16_t sz, uint16_t width, int16_t start, int16_t end, uint16_t opa, lv_palette_t palette)
+static void arc_create(lv_obj_t* parent, lv_style_t * style, uint16_t sz, uint16_t width, int16_t start, int16_t end, uint16_t opa, lv_color_t color)
 {
   lv_obj_t * obj = lv_arc_create(parent);
   lv_obj_remove_style_all(obj); // the remove knob
@@ -122,7 +122,7 @@ static void arc_create(lv_obj_t* parent, lv_style_t * style, uint16_t sz, uint16
   lv_style_set_arc_opa(style, opa);
   lv_obj_add_style(obj, style, LV_PART_INDICATOR);
 
-  lv_obj_set_style_arc_color(obj, lv_palette_lighten(palette, 1), LV_PART_INDICATOR);
+  lv_obj_set_style_arc_color(obj, color, LV_PART_INDICATOR);
   lv_arc_set_start_angle(obj, start);
   lv_arc_set_end_angle(obj, end);
   lv_obj_center(obj);
@@ -195,13 +195,13 @@ void lv_example_compas_0(lv_obj_t* parent)
   static lv_style_t style_arc6;
   static lv_style_t style_arc7;
 
-  arc_create(compas, &style_arc1, 330, 60,   0,360, LV_OPA_20, LV_PALETTE_ORANGE);
-  arc_create(compas, &style_arc2, 342,  4,   0,360, LV_OPA_80, LV_PALETTE_YELLOW);
-  arc_create(compas, &style_arc3, 350,  4,   0,360, LV_OPA_80, LV_PALETTE_LIME);
-  arc_create(compas, &style_arc4, 400, 28,   0, 90, LV_OPA_20, LV_PALETTE_ORANGE);
-  arc_create(compas, &style_arc5, 400, 28,  90,180, LV_OPA_40, LV_PALETTE_RED);
-  arc_create(compas, &style_arc6, 400, 28, 180,270, LV_OPA_60, LV_PALETTE_GREEN);
-  arc_create(compas, &style_arc7, 400, 28, 270,360, LV_OPA_40, LV_PALETTE_BLUE);
+  arc_create(compas, &style_arc1, 330, 60,   0,360, LV_OPA_20, lv_color_change_lightness(lv_palette_main(LV_PALETTE_ORANGE),96));
+  arc_create(compas, &style_arc2, 342,  4,   0,360, LV_OPA_80, lv_palette_main(LV_PALETTE_YELLOW));
+  arc_create(compas, &style_arc3, 350,  4,   0,360, LV_OPA_80, lv_palette_main(LV_PALETTE_LIME));
+  arc_create(compas, &style_arc4, 400, 28,   0, 90, LV_OPA_20, lv_palette_darken(LV_PALETTE_ORANGE,1));
+  arc_create(compas, &style_arc5, 400, 28,  90,180, LV_OPA_40, lv_palette_darken(LV_PALETTE_RED,1));
+  arc_create(compas, &style_arc6, 400, 28, 180,270, LV_OPA_60, lv_palette_darken(LV_PALETTE_GREEN,2));
+  arc_create(compas, &style_arc7, 400, 28, 270,360, LV_OPA_40, lv_palette_lighten(LV_PALETTE_BLUE,1));
   //--draw arcs end--
 
   //--draw rects--
