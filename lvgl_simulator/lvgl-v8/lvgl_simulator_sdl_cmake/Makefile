@@ -1,8 +1,15 @@
+### run make SILENT=0 , with  all print.
+### SILENT=1 , default silent mode
 
-TARGET = sim
+SILENT ?= 1
+ifeq (1,$(SILENT))
+.SILENT:
+endif
+
+TARGET = application
 
 # debug build?
-DEBUG = 1
+DEBUG = 0
 # optimization
 OPT = -Og
 # debug output periph regs
@@ -49,7 +56,7 @@ AS_DEFS =
 
 # C defines
 C_DEFS +=
-# C_DEFS += '-D GLEW_STATIC'
+C_DEFS += '-D GLEW_STATIC'
 # C_DEFS += '-D __align(value)=__attribute__((aligned(value)))'
 # C_DEFS += '-D __forceinline=__attribute__((always_inline))'
 # C_DEFS += '-D __irq=__attribute__((interrupt("IRQ")))'
@@ -59,13 +66,17 @@ C_DEFS +=
 # AS includes
 AS_INCLUDES = 
 
-# includes
-# Find header directories
+# C includes
+# Find header files: h, hh, hpp.
 INCDIR = .
-C_INC    =$(shell find -L $(INCDIR) -name '*.h' -exec dirname {} \; | uniq)
-CPP_INC +=$(shell find -L $(INCDIR) -name '*.hpp' -exec dirname {} \; | uniq)
-C_INCLUDES  =$(C_INC:%=-I%)
-CPP_INCLUDES=$(CPP_INC:%=-I%)
+# C_INC       =$(shell find -L app/Inc   -name '*.h*' -exec dirname {} \; | uniq)
+# C_INC      +=$(shell find -L FontsUG   -name '*.h*' -exec dirname {} \; | uniq)
+# C_INC      +=$(shell find -L graphics  -name '*.h*' -exec dirname {} \; | uniq)
+# C_INC      +=$(shell find -L libs      -name '*.h*' -exec dirname {} \; | uniq)
+# C_INC      +=$(shell find -L Src*      -name '*.h*' -exec dirname {} \; | uniq)
+C_INC      +=$(shell find -L $(INCDIR)/  -name '*.h*' -exec dirname {} \; | uniq)
+
+C_INCLUDES  =$(C_INC:%=-I %)
 
 # compile gcc flags
 # ASFLAGS = $(MCU) $(AS_DEFS) $(AS_INCLUDES) $(OPT) -Wall -fdata-sections -ffunction-sections
@@ -86,6 +97,8 @@ WARNINGS += -Wno-format-nonliteral
 WARNINGS += -Wno-cast-qual
 WARNINGS += -Wno-switch-default
 WARNINGS += -Wno-ignored-qualifiers
+WARNINGS += -Wno-incompatible-pointer-types
+WARNINGS += -Wno-implicit-int
 WARNINGS += -Wno-error=pedantic
 WARNINGS += -Wno-sign-compare
 WARNINGS += -Wno-error=missing-prototypes
@@ -110,6 +123,7 @@ CFLAGS_STD = -c -Os -w -std=gnu17 $(GCCFLAGS)
 CXXFLAGS_STD = -c -Os -w -std=gnu++17 $(GCCFLAGS)
 
 CFLAGS = $(MCU) $(C_DEFS) $(C_INCLUDES) $(OPT) $(CFLAGS_STD) 
+CFLAGS += -Wno-implicit-function-declaration
 CPPFLAGS = $(MCU) $(C_DEFS) $(C_INCLUDES) $(OPT) $(CXXFLAGS_STD) 
 
 # # Generate dependency information
@@ -117,17 +131,20 @@ CPPFLAGS = $(MCU) $(C_DEFS) $(C_INCLUDES) $(OPT) $(CXXFLAGS_STD)
 
 # libraries
 LIBDIR =
-LIBS   = -lc -lm
+LIBS = -lc -lm
 LIBS  += -lSDL2
 # LIBS  += -lglut /usr/lib/x86_64-linux-gnu/libGL.so
 # LIBS  += -lCORE -lGLEW
 # LIBS  += -lglfw -lglut
 # LIBS  += -lGLU
-# LIBS  += -lGL -lXi -lXext -lX11
+# LIBS += -lGL -lXi -lXext -lX11
 
 LDFLAGS +=  $(LIBDIR) $(LIBS)
+LDFLAGS += -Wl,--start-group
 LDFLAGS += -lgcc
 LDFLAGS += -lstdc++
+LDFLAGS += -Wl,--end-group
+
 # default action: build all
 all: $(BUILD_APP_DIR)/$(TARGET).elf $(BUILD_APP_DIR)/$(TARGET).hex $(BUILD_APP_DIR)/$(TARGET).bin
 
@@ -137,9 +154,9 @@ YELLOW=\033[1;33m
 NC=\033[0m
 ##-------------##
 
-#######################################
+###
 # build the application
-#######################################
+###
 # list of objects
 OBJECTS = $(addprefix $(BUILD_CC_DIR)/,$(notdir $(C_SOURCES:.c=.o)))
 vpath %.c $(sort $(dir $(C_SOURCES)))
@@ -152,19 +169,19 @@ OBJECTS += $(addprefix $(BUILD_ASM_DIR)/,$(notdir $(ASM_SOURCES:.s=.o)))
 vpath %.s $(sort $(dir $(ASM_SOURCES)))
 
 $(BUILD_CC_DIR)/%.o: %.c Makefile | $(BUILD_CC_DIR)
-	@echo "\n ${green} [compile:] ${YELLOW} $< ${NC}"
+	@echo " ${green} [compile:] ${YELLOW} $< ${NC}"
 	$(CC) -c $(CFLAGS) -Wa,-a,-ad,-alms=$(BUILD_CC_DIR)/$(notdir $(<:.c=.lst)) $< -o $@
 
 $(BUILD_CPP_DIR)/%.o: %.cpp Makefile | $(BUILD_CPP_DIR)
-	@echo "\n ${green} [compile:] ${YELLOW} $< ${NC}"
+	@echo " ${green} [compile:] ${YELLOW} $< ${NC}"
 	$(CXX) -c $(CPPFLAGS) -Wa,-a,-ad,-alms=$(BUILD_CPP_DIR)/$(notdir $(<:.cpp=.lst)) $< -o $@
 
 $(BUILD_ASM_DIR)/%.o: %.s Makefile | $(BUILD_ASM_DIR)
-	@echo "\n ${green} [compile:] ${YELLOW} $< ${NC}"
-	$(AS) -c $(CFLAGS) $< -o $@
+	@echo " ${green} [compile:] ${YELLOW} $< ${NC}"
+	$(AS) -c $(CFLAGS) -Wa,-a,-ad,-alms=$(BUILD_CC_DIR)/$(notdir $(<:.s=.lst)) $< -o $@
 
 $(BUILD_APP_DIR)/$(TARGET).elf: $(OBJECTS) Makefile | $(BUILD_APP_DIR)
-	@echo "\n ${green} [linking:] ${YELLOW} $@ ${NC}"
+	@echo " ${green} [linking:] ${YELLOW} $@ ${NC} \n"
 	$(CC) $(OBJECTS) $(LDFLAGS) -o $@
 	$(SZ) $@ --format=Berkeley
 	cp $(BUILD_APP_DIR)/$(TARGET).elf ./
@@ -186,9 +203,9 @@ $(BUILD_APP_DIR):
 $(BUILD_ASM_DIR):
 	mkdir -p $@
 
-#######################################
+###
 # clean up
-#######################################
+###
 clean:
 	-rm -fR $(BUILD_DIR)
 	-rm -f  $(TARGET).elf
