@@ -66,17 +66,11 @@ C_DEFS += '-D GLEW_STATIC'
 # AS includes
 AS_INCLUDES = 
 
-# C includes
+# Includes
 # Find header files: h, hh, hpp.
-INCDIR = .
-# C_INC       =$(shell find -L app/Inc   -name '*.h*' -exec dirname {} \; | uniq)
-# C_INC      +=$(shell find -L FontsUG   -name '*.h*' -exec dirname {} \; | uniq)
-# C_INC      +=$(shell find -L graphics  -name '*.h*' -exec dirname {} \; | uniq)
-# C_INC      +=$(shell find -L libs      -name '*.h*' -exec dirname {} \; | uniq)
-# C_INC      +=$(shell find -L Src*      -name '*.h*' -exec dirname {} \; | uniq)
-C_INC      +=$(shell find -L $(INCDIR)/  -name '*.h*' -exec dirname {} \; | uniq)
-
-C_INCLUDES  =$(C_INC:%=-I %)
+INCDIR      = .
+C_INC       = $(shell find -L $(INCDIR) -name '*.h*' -exec dirname {} \; | uniq)
+C_INCLUDES  = $(C_INC:%=-I %)
 
 # compile gcc flags
 # ASFLAGS = $(MCU) $(AS_DEFS) $(AS_INCLUDES) $(OPT) -Wall -fdata-sections -ffunction-sections
@@ -86,8 +80,6 @@ WARNINGS += -Wextra
 WARNINGS += -Wshadow
 WARNINGS += -Wundef
 WARNINGS += -Wmaybe-uninitialized
-WARNINGS += -Wmissing-prototypes
-WARNINGS += -Wno-discarded-qualifiers
 WARNINGS += -Wno-unused-function
 WARNINGS += -Wno-error=strict-prototypes
 WARNINGS += -Wno-error=cpp
@@ -97,8 +89,6 @@ WARNINGS += -Wno-format-nonliteral
 WARNINGS += -Wno-cast-qual
 WARNINGS += -Wno-switch-default
 WARNINGS += -Wno-ignored-qualifiers
-WARNINGS += -Wno-incompatible-pointer-types
-WARNINGS += -Wno-implicit-int
 WARNINGS += -Wno-error=pedantic
 WARNINGS += -Wno-sign-compare
 WARNINGS += -Wno-error=missing-prototypes
@@ -123,7 +113,11 @@ CFLAGS_STD = -c -Os -w -std=gnu17 $(GCCFLAGS)
 CXXFLAGS_STD = -c -Os -w -std=gnu++17 $(GCCFLAGS)
 
 CFLAGS = $(MCU) $(C_DEFS) $(C_INCLUDES) $(OPT) $(CFLAGS_STD) 
+CFLAGS += -Wmissing-prototypes
+CFLAGS += -Wno-discarded-qualifiers
 CFLAGS += -Wno-implicit-function-declaration
+CFLAGS += -Wno-implicit-int
+CFLAGS += -Wno-incompatible-pointer-types
 CPPFLAGS = $(MCU) $(C_DEFS) $(C_INCLUDES) $(OPT) $(CXXFLAGS_STD) 
 
 # # Generate dependency information
@@ -139,10 +133,10 @@ LIBS  += -lSDL2
 # LIBS  += -lGLU
 # LIBS += -lGL -lXi -lXext -lX11
 
-LDFLAGS +=  $(LIBDIR) $(LIBS)
-LDFLAGS += -Wl,--start-group
 LDFLAGS += -lgcc
 LDFLAGS += -lstdc++
+LDFLAGS += -Wl,--start-group
+LDFLAGS +=  $(LIBDIR) $(LIBS)
 LDFLAGS += -Wl,--end-group
 
 # default action: build all
@@ -153,7 +147,6 @@ green=\033[0;32m
 YELLOW=\033[1;33m
 NC=\033[0m
 ##-------------##
-
 ###
 # build the application
 ###

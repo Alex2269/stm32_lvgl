@@ -24,7 +24,6 @@ BUILD_APP_DIR = $(BUILD_DIR)/app
 BUILD_CC_DIR  = $(BUILD_DIR)/ccc
 BUILD_CPP_DIR = $(BUILD_DIR)/cpp
 
-
 # recursive find sources files
 # sources
 ROOT_DIR = .
@@ -34,8 +33,6 @@ ASM_SOURCES += $(shell find ${ROOT_DIR} -name '*.s')
 
 # binaries
 PREFIX = arm-none-eabi-
-# The gcc compiler bin path can be either defined in make command via GCC_PATH variable (> make GCC_PATH=xxx)
-# either it can be added to the PATH environment variable.
 ifdef GCC_PATH
 CC = $(GCC_PATH)/$(PREFIX)gcc
 CXX = $(GCC_PATH)/$(PREFIX)g++
@@ -91,11 +88,11 @@ C_DEFS += -DSTM32F401xC
 # AS includes
 AS_INCLUDES = 
 
-# includes
-# Find header directories
-INCDIR = .
-C_INC    =$(shell find -L $(INCDIR) -name '*.h*' -exec dirname {} \; | uniq)
-C_INCLUDES  =$(C_INC:%=-I %)
+# Includes
+# Find header files: h, hh, hpp.
+INCDIR      = .
+C_INC       = $(shell find -L $(INCDIR) -name '*.h*' -exec dirname {} \; | uniq)
+C_INCLUDES  = $(C_INC:%=-I %)
 
 # compile gcc flags
 # ASFLAGS = $(MCU) $(AS_DEFS) $(AS_INCLUDES) $(OPT) -Wall -fdata-sections -ffunction-sections
@@ -105,8 +102,6 @@ WARNINGS += -Wextra
 WARNINGS += -Wshadow
 WARNINGS += -Wundef
 WARNINGS += -Wmaybe-uninitialized
-# WARNINGS += -Wmissing-prototypes
-# WARNINGS += -Wno-discarded-qualifiers
 WARNINGS += -Wno-unused-function
 WARNINGS += -Wno-error=strict-prototypes
 WARNINGS += -Wno-error=cpp
@@ -145,11 +140,15 @@ GCCFLAGS += -fno-rtti
 GCCFLAGS += -fno-exceptions
 GCCFLAGS += -fno-use-cxa-atexit
 
-CFLAGS_STD += -Wno-implicit-function-declaration
-CFLAGS_STD += -c -Os -w -std=gnu17 $(GCCFLAGS)
+CFLAGS_STD = -c -Os -w -std=gnu17 $(GCCFLAGS)
 CXXFLAGS_STD = -c -Os -w -std=gnu++17 $(GCCFLAGS)
 
 CFLAGS = $(MCU) $(C_DEFS) $(C_INCLUDES) $(OPT) $(CFLAGS_STD) 
+CFLAGS += -Wmissing-prototypes
+CFLAGS += -Wno-discarded-qualifiers
+CFLAGS += -Wno-implicit-function-declaration
+CFLAGS += -Wno-implicit-int
+CFLAGS += -Wno-incompatible-pointer-types
 CPPFLAGS = $(MCU) $(C_DEFS) $(C_INCLUDES) $(OPT) $(CXXFLAGS_STD) 
 
 ifeq ($(DEBUG), 1)
@@ -208,9 +207,9 @@ green=\033[0;32m
 YELLOW=\033[1;33m
 NC=\033[0m
 ##-------------##
-#######################################
+###
 # build the application
-#######################################
+###
 # list of objects
 OBJECTS = $(addprefix $(BUILD_CC_DIR)/,$(notdir $(C_SOURCES:.c=.o)))
 vpath %.c $(sort $(dir $(C_SOURCES)))
@@ -255,9 +254,9 @@ $(BUILD_APP_DIR):
 $(BUILD_ASM_DIR):
 	mkdir -p $@
 
-#######################################
+###
 # clean up
-#######################################
+###
 clean:
 	-rm -fR $(BUILD_DIR)
 
